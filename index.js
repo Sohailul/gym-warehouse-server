@@ -69,17 +69,16 @@ async function run() {
         // Update Quantity
         app.put('/item/:id', async (req, res) => {
             const id = req.params.id;
-            const delivered = req.body;
+            const updatedData = req.body;
             const filter = { _id: ObjectId(id) };
             const options = { upsert: true };
             const updatedDoc = {
                 $set: {
-                    quantity: delivered.quantity,
+                    quantity: updatedData.quantity,
                 }
             };
             const result = await itemCollection.updateOne(filter, updatedDoc, options);
-            // res.send(result);
-            console.log(result);
+            res.send(result);
 
         })
 
@@ -101,8 +100,8 @@ async function run() {
                 const myItems = await cursor.toArray();
                 res.send(myItems);
             }
-            else{
-                res.status(403).send({message: 'Forbidded Access'});
+            else {
+                res.status(403).send({ message: 'Forbidded Access' });
             }
 
         })
